@@ -9,9 +9,7 @@
         }
     }
     const player1 = Player("Sotiris", "X")
-    console.log(`${player1.name} has chosen "${player1.mark}" as his mark`)
     const player2 = Player("Computer", "O");
-    console.log(`${player2.name} has chosen "${player2.mark}" as his mark`)
 
 // This function creates the game board and controls everything related to the board itself
 const gameBoard = function () {
@@ -53,18 +51,13 @@ const gameBoard = function () {
 // CREATE AN INSTANCE OF THE GAMEBOARD
 // Now we actually run the gameBoard function and store its returned object
 const board = gameBoard();
-console.log(board.getBoard());
-// Place an "X" in position 0 to test the board
-board.placeMark(0, "X");
-console.log(board.getBoard());
 
 // GAME CONTROLLER MODULE
 // This module controls the game flow (turns, win checking, tie checking)
 const GameController = (function() {
     // The game starts with player1
     let currentPlayer = player1;
-    // Store players in an array for convenience
-    const players = [player1, player2];
+    
 
     // SWITCH PLAYER FUNCTION
     // This changes the turn after each valid move
@@ -116,22 +109,21 @@ const GameController = (function() {
          // Try to place the current player's mark on the board
         const success = board.placeMark(index, currentPlayer.mark);
         if (!success) {
-            // If the move was invalid (spot already taken)
-            console.log("Spot already taken!");
             return;
         }
 
-        console.log(board.getBoard());
+        //update board display
+        displayController.render();
 
         // Check if the current player won
         if (checkWinner()) {
-            console.log(currentPlayer.name + " wins!");
+            displayController.showResult(currentPlayer.name + " wins!");
             return; // game over
         }
 
          // Check if the board is full (tie)
         if (checkTie()) {
-            console.log("It's a tie!");
+            displayController.showResult("It's a tie!");
             return; // game over
         }
 
@@ -150,6 +142,9 @@ const displayController = (function () {
     // Get all board cells from the HTML
     const cells = document.querySelectorAll(".cell");
 
+     // Get result display element
+    const resultDisplay = document.querySelector("#result");
+
     // RENDER FUNCTION
     // Updates the webpage so it matches the board array
     const render = function () {
@@ -161,46 +156,59 @@ const displayController = (function () {
         }
     };
 
-    // ADD CLICK EVENTS TO CELLS
-    // This allows players to click the board
-    const addCellListeners = function () {
-
-        cells.forEach((cell, index) => {
-
-            cell.addEventListener("click", function () {
-
-                // Run the game logic
-                GameController.playRound(index);
-
-                // Re-render board after move
-                render();
-
-            });
-
-        });
-
+     // SHOW RESULT FUNCTION
+    const showResult = function(message){
+        resultDisplay.textContent = message;
     };
 
+     // ADD CLICK EVENTS TO CELLS
+    const addCellListeners = function () {
+        cells.forEach((cell) => {
+            cell.addEventListener("click", function () {
+                const index = Number(cell.dataset.index);
+                GameController.playRound(index);
+                render();
+            });
+        });
+    };
+
+    // Expose functions
     return {
         render,
-        addCellListeners
+        addCellListeners,
+        showResult
     };
 
 })();
 
 
-
 displayController.render();
 
 
-const addCellListeners = function () {
-    cells.forEach((cell, index) => {
-        cell.addEventListener("click", function () {
-            GameController.playRound(index);
-            render;
-        });
-    });
-};
+//get result display element
+const resultDisplay = document.querySelector("#result");
 
-displayController.render();
+
+
+    // GET UI ELEMENTS
+const startBtn = document.querySelector("#startBtn");
+const player1Input = document.querySelector("#player1Name");
+const player2Input = document.querySelector("#player2Name");
+
+// START / RESTART GAME
+startBtn.addEventListener("click", function () {
+    // update player names
+    if (player1Input.value !== "") player1.name = player1Input.value;
+    if (player2Input.value !== "") player2.name = player2Input.value;
+
+    // reset board
+    board.resetBoard();
+
+    // clear result
+    displayController.showResult("");
+
+    // redraw board
+    displayController.render();
+});
+
 displayController.addCellListeners();

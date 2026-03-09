@@ -6,21 +6,81 @@
     <title>Document</title>
     <script src="index.js" defer></script>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <h1>Tic Tac Toe</h1>
-    <div id="board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
+<body class="bg-yellow-50 flex flex-col items-center justify-center min-h-screen">
 
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
+    <!-- PAGE TITLE -->
+    <h1 class="text-4xl font-bold mb-6">Tic Tac Toe</h1>
 
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
+
+    <!-- GAME CONTROLS -->
+    <!-- Contains player inputs and start button -->
+    <div id="controls" class="flex gap-3 mb-6">
+
+        <!-- Player 1 name input -->
+        <input
+            id="player1Name"
+            type="text"
+            placeholder="Player 1 name"
+            class="border p-2 rounded"
+        >
+
+        <!-- Player 2 name input -->
+        <input
+            id="player2Name"
+            type="text"
+            placeholder="Player 2 name"
+            class="border p-2 rounded"
+        >
+
+        <!-- Start / Restart Button -->
+        <button
+            id="startBtn"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+            Start / Restart Game
+        </button>
+
     </div>
+
+
+    <!-- RESULT DISPLAY -->
+    <!-- This will show the winner or tie -->
+    <div
+        id="result"
+        class="text-xl font-semibold mb-4 text-center"
+    ></div>
+
+
+    <!-- GAME BOARD -->
+    <!-- Grid with 3 columns for Tic Tac Toe -->
+    <div
+        id="board"
+        class="grid grid-cols-3 gap-2"
+    >
+
+        <!-- Each cell represents one board position -->
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="0"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="1"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="2"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="3"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="4"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="5"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="6"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="7"></div>
+
+        <div class="cell w-24 h-24 bg-white border flex items-center justify-center text-3xl font-bold cursor-pointer" data-index="8"></div>
+
+    </div>
+
 </body>
 </html>
